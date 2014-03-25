@@ -1,7 +1,7 @@
 Eixo::Rest Module
 ==================
 
-Perl modules to provide a base to assemble REST api clients. 
+Perl modules to simplify the construction of REST api clients. 
 
 It provides a set of base classes from which derive and build api resources (Products) and simplify api calls.
 
