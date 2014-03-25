@@ -7,6 +7,7 @@ SKIP: {
     skip "HTTP::Server::Simple::CGI not installed", 2 if($@);
 
     use_ok(Eixo::Rest::ApiFakeServer);
+    use_ok(Eixo::Rest::Api);
 
     my $pid;
     
@@ -50,7 +51,7 @@ SKIP: {
     	#
     	# We can connect now to it
     	#
-        	my $a = Eixo::Rest::Api->new('http://localhost:8085');
+        my $a = Eixo::Rest::Api->new('http://localhost:8085');
     
     	$a->getTest(
     	
