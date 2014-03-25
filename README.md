@@ -3,6 +3,8 @@ Eixo::Rest Module
 
 Perl module for Eixo project, to interact with a remote HTTP REST api.
 
+It allows send requests in sync and async mode (using threads).
+
 
 COPYRIGHT AND LICENSE
 ---------------------
