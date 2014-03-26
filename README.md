@@ -7,6 +7,8 @@ It provides a set of base classes from which derive and build api resources (Pro
 
 In addition, it allows send HTTP requests in sync and async mode (using threads).
 
+It also offers a tool for building REST API's for testing purpouses.
+
 
 COPYRIGHT AND LICENSE
 ---------------------
