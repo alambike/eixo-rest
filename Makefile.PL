@@ -9,7 +9,7 @@ WriteMakefile(
         'JSON' => "2.50",
         'LWP::UserAgent' => "5.0",
         'Net::HTTP'   => '6.06',
-        'Eixo::Base' => '0.01',
+        'Eixo::Base' => '1.0',
     },
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (
