@@ -18,11 +18,11 @@ In addition, it allows send HTTP requests in sync and async mode (using threads)
 It also offers a tool for building REST APIs for testing purpouses.
 
 
-=head1 AUTHORS
+=head1 AUTHOR
 
 Francisco Maseda, E<lt>frmadem@gmail.comE<gt>
 
-Javier Gomez, E<lt>alambike@gmail.comE<gt>
+Javier Gómez, E<lt>alambike@gmail.comE<gt>
 
 
 =head1 COPYRIGHT AND LICENSE
