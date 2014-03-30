@@ -3,6 +3,8 @@ LICENSE
 MANIFEST
 Makefile.PL
 README.md
+META.yml
+META.json
 lib/Eixo/Rest.pm
 lib/Eixo/Rest.pod
 lib/Eixo/Rest/Api.pm
