@@ -31,9 +31,20 @@ SKIP: {
     				}
     
     			},
+
+			'/test/:id/json' => {
+
+				body=>sub {
+
+					print '{ "a" : 24 }'
+				}
+
+			},
     
     			'/test2/b' =>  {
-    
+ 
+				type=>"POST",
+				   
     				body=>sub {
     
     					print $_[0]->cgi->{param}->{POSTDATA}->[0];
@@ -69,7 +80,23 @@ SKIP: {
     
     		}
     	);
-    
+
+	$a->getTest(
+
+		args=>{
+
+			id=>"buu",
+		},
+
+		__callback=>sub {
+
+			is(ref($_[0]), "HASH", "Request was successfull (2)");
+			is($_[0]->{a}, 24, "Request's data is correct");
+
+		}
+
+	);    
+
     	$a->postTest2(
     
     		args=>{

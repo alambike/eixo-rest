@@ -113,6 +113,8 @@ sub get: Log {
 
 	$uri->query_form($args{GET_DATA});
 
+	use Data::Dumper; print Dumper($uri);
+
 	my $req = HTTP::Request->new(GET => $uri);
 
 	my $send_method = $args{__client_send_method};

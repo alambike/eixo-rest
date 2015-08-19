@@ -11,6 +11,64 @@ has(
 
 );
 
+sub initialize{
+	my ($self, %args) = @_;
+	
+	# we treat special routes, ie. with placeholders...
+
+	my $routes = [];	
+
+	foreach my $r (keys(%{$args{listeners}})){
+
+		if($r =~ /\:/){
+
+			my $n = $r;
+
+			while($r =~ /\:(\w+)/g){
+
+				$n =~ s/\:$1/\[\^\/\]\+/;
+			}
+
+			$n .= '$';
+
+			$n = qr/$n/;
+
+			push @$routes, {
+
+				tester=>sub {
+			
+					$_[0] =~ /$n/;
+				
+				},
+
+				route=>$r
+			}
+
+		}
+		else{
+			unshift @$routes, {
+
+				tester=>sub {
+
+					$_[0] eq $r;
+				},
+
+				route=>$r
+			}
+		}
+
+	}
+
+	$self->{routes} = $routes;
+
+	foreach(values(%{$self->{listeners}})){
+
+		$_->{type} = "GET" unless($_->{type});
+	}
+
+	$self;
+}
+
 sub start{
 	my ($self, $port) = @_;
 
@@ -20,6 +78,7 @@ sub start{
 
 		$self
 	);
+
 }
 
 sub process{
@@ -27,15 +86,29 @@ sub process{
 
 	$self->cgi($cgi);
 
+	my $listener = $self->__getListener($cgi) || $self->__defaultListener;
+
 	$self->__send(
 
-		$self->listeners->{$cgi->path_info} ||
-		
-
-		$self->__defaultListener
-
+		$listener
 	);
 
+}
+
+sub __getListener{
+	my ($self, $cgi) = @_;
+
+	my $method;
+
+	foreach(@{$self->{routes}}){
+
+		if($_->{tester}->($cgi->path_info)){
+			$method = $self->{listeners}->{$_->{route}};
+			last;
+		}
+	}
+
+	return $method if($method && lc($method->{type}) eq lc($cgi->request_method));
 }
 
 sub __defaultListener{
