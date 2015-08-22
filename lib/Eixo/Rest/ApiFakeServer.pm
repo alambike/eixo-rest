@@ -98,17 +98,18 @@ sub process{
 sub __getListener{
 	my ($self, $cgi) = @_;
 
-	my $method;
+	foreach my $r (@{$self->{routes}}){
 
-	foreach(@{$self->{routes}}){
+		if($r->{tester}->($cgi->path_info)){
 
-		if($_->{tester}->($cgi->path_info)){
-			$method = $self->{listeners}->{$_->{route}};
-			last;
+			my $method = $self->{listeners}->{$r->{route}};
+
+			return $method if($method->{type} eq '*');
+
+			return $method if(lc($method->{type}) eq lc($cgi->request_method));
 		}
 	}
 
-	return $method if($method && lc($method->{type}) eq lc($cgi->request_method));
 }
 
 sub __defaultListener{
