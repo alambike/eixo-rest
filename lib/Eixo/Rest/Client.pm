@@ -113,7 +113,6 @@ sub get: Log {
 
 	$uri->query_form($args{GET_DATA});
 
-	use Data::Dumper; print Dumper($uri);
 
 	my $req = HTTP::Request->new(GET => $uri);
 
@@ -191,6 +190,27 @@ sub put: Log {
 	my $req = HTTP::Request->new(PUT=> $uri);
 
     my $send_method = $args{__client_send_method};
+
+    my $headers = $args{HEADER_DATA} || {'Content-Type' => 'application/json'};
+
+    $req->header(%$headers);
+
+    my $content;
+
+    if($req->header("Content-Type") eq "application/json"){
+
+        $content = JSON->new->allow_blessed(1)
+                            ->convert_blessed(1)
+                            ->encode($args{POST_DATA} || {});
+    }
+    else{
+        
+        # raw stream
+        $content = $args{POST_DATA};
+
+    }
+
+    $req->content($content);
 
     $self->$send_method($req, %args);
 }
