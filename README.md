@@ -10,6 +10,16 @@ In addition, it allows send HTTP requests in sync and async mode (using threads)
 It also offers a tool for building REST APIs for testing purpouses.
 
 
+NOTES
+-----
+
+To support https we use LWP::Protocol::https module that needs ssl dev libraries installed in system:
+
+- In ubuntu/debian:
+    ```apt-get install libssl-dev```
+
+
+
 COPYRIGHT AND LICENSE
 ---------------------
 

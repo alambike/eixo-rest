@@ -26,22 +26,22 @@ has(
 );
 
 sub initialize{
-	my ($self, $endpoint) = @_;
+	my ($self, $endpoint, %opts) = @_;
 
 	$self->endpoint($endpoint);
 
 	die("API ENDPOINT NEEDED") unless($self->endpoint);
 
-	$self->ua($USER_AGENT_VERSION);
+	$self->ua($USER_AGENT_VERSION, %opts);
 
 	$self;
 }
 
 sub ua {
-	my ($self, $ua_str) = @_;
+	my ($self, $ua_str, %opts) = @_;
 
 	if($ua_str){
-		my $ua = LWP::UserAgent->new;
+		my $ua = LWP::UserAgent->new(%opts);
 		$ua->agent($ua_str);
 		$self->{ua} = $ua;
 	}
