@@ -47,7 +47,9 @@ SKIP: {
 
 	is(scalar(@chunks), $TIMES, 'Progress of request seems ok');
 
-	is(scalar(grep { 'CHUNK_' .$_ ~~ @chunks } (1..$TIMES)), $TIMES, 'Type of progress seems all right');
+	my %chunks = map {$_ => 1} @chunks;
+
+	is(scalar(grep { $chunks{'CHUNK_' .$_} } (1..$TIMES)), $TIMES, 'Type of progress seems all right');
 
 	is($end, 'OK', 'The request ended well');
 
