@@ -4,6 +4,7 @@ use strict;
 use Eixo::Base::Clase;
 use URI;
 use LWP::UserAgent;
+use LWP::Protocol::https;
 use JSON -convert_blessed_universally;
 use Carp;
 use Data::Dumper;
@@ -232,7 +233,7 @@ sub __send{
 
 	)->send(
 
-		$self->ua($USER_AGENT_VERSION), 
+		$self->ua(), 
 
 		$req
 
@@ -261,7 +262,7 @@ sub __sendAsync{
 
 	)->send(
 
-		$self->ua($USER_AGENT_VERSION), 
+		$self->ua(), 
 
 		$req
 
