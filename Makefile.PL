@@ -7,7 +7,8 @@ WriteMakefile(
     VERSION_FROM      => 'lib/Eixo/Rest.pm', # finds $VERSION
     PREREQ_PM         => {
         'JSON' => "2.50",
-        'LWP::UserAgent' => "5.0",
+        'LWP::UserAgent' => '6.06',
+        'LWP::Protocol::https' => '6.06',
         'Net::HTTP'   => '6.06',
         'Eixo::Base' => '1.0',
         'HTTP::Server::Simple::CGI' => '0',

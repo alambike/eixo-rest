@@ -34,10 +34,10 @@ sub AUTOLOAD{
 sub DESTROY {}
 
 sub initialize{
-	my ($self, $endpoint) = @_;
+	my ($self, $endpoint, %opts) = @_;
 
 	$self->client(
-		Eixo::Rest::Client->new($endpoint)
+		Eixo::Rest::Client->new($endpoint, %opts)
 	);
 
 	$self;
