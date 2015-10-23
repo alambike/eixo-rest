@@ -16,6 +16,7 @@ sub initialize {
 
 	$self->method($args{method});
 	$self->reason($args{reason});
+
 	chomp(@{$args{args}});
 	$self->args($args{args});
 
@@ -46,6 +47,9 @@ sub __generateError {
 
 }
 
+#
+# common reasons
+#
 
 sub PARAM_NEEDED {
 	my $self = $_[0];

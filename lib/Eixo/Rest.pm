@@ -8,6 +8,6 @@ use parent qw(Eixo::Base::Clase);
 use JSON;
 use LWP::UserAgent;
 
-our $VERSION = '1.020';
+our $VERSION = '1.025';
 
 1;

@@ -13,10 +13,13 @@ has(
 
 sub initialize{
 	my ($self, %args) = @_;
+
+	$self->{cgi} = $args{cgi};	
+	$self->{listeners} = $args{listeners};	
 	
 	# we treat special routes, ie. with placeholders...
 
-	my $routes = [];	
+	my $routes = [];
 
 	foreach my $r (keys(%{$args{listeners}})){
 

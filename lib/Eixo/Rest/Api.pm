@@ -34,7 +34,12 @@ sub AUTOLOAD{
 sub DESTROY {}
 
 sub initialize{
+
 	my ($self, $endpoint, %opts) = @_;
+
+    #die(Dumper($self));use Data::Dumper;
+
+    $self->jobs([]);
 
 	$self->client(
 		Eixo::Rest::Client->new($endpoint, %opts)
