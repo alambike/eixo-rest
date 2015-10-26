@@ -146,8 +146,12 @@ sub post: Log {
     }
     else{
         
+        # application/x-www-form-urlencoded
         # raw stream
-        $content = $args{POST_DATA};
+        while(my ($key, $value) = each (%{$args{POST_DATA} || {}})){
+            $content .= "$key=$value&";
+        }
+
     }
 
     $req->content($content);
@@ -206,8 +210,12 @@ sub put: Log {
     }
     else{
         
+        # application/x-www-form-urlencoded
         # raw stream
-        $content = $args{POST_DATA};
+        while(my ($key, $value) = each (%{$args{POST_DATA} || {}})){
+            $content .= "$key=$value&";
+        }
+
 
     }
 
