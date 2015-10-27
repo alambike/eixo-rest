@@ -4,7 +4,6 @@ use strict;
 use Eixo::Base::Clase;
 
 use Attribute::Handlers;
-use Eixo::Rest::Client;
 use Carp;
 
 has (
