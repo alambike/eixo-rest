@@ -10,7 +10,7 @@ WriteMakefile(
         'LWP::UserAgent' => '6.06',
         'LWP::Protocol::https' => '6.06',
         'Net::HTTP'   => '6.06',
-        'Eixo::Base' => '1.0',
+        'Eixo::Base' => '1.400',
         'HTTP::Server::Simple::CGI' => '0',
     },
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
