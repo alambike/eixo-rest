@@ -35,17 +35,13 @@ sub DESTROY {}
 
 sub initialize{
 
-	my ($self, $endpoint, %opts) = @_;
+    my ($self, $endpoint, %opts) = @_;
 
-    #die(Dumper($self));use Data::Dumper;
+    $self->client(
+        Eixo::Rest::Client->new($endpoint, %opts)
+    );
 
-    $self->jobs([]);
-
-	$self->client(
-		Eixo::Rest::Client->new($endpoint, %opts)
-	);
-
-	$self;
+    $self;
 }
 
 sub produce{

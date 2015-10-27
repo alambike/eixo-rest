@@ -1,8 +1,7 @@
 package Eixo::Rest::RequestSync;
 
 use strict;
-use Eixo::Rest::Request;
-use parent qw(Eixo::Rest::Request);
+use Eixo::Base::Clase 'Eixo::Rest::Request';
 use Data::Dumper;
 
 

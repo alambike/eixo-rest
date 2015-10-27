@@ -2,6 +2,7 @@ package Eixo::Rest::Client;
 use strict;
 
 use Eixo::Base::Clase;
+
 use URI;
 use LWP::UserAgent;
 use LWP::Protocol::https;

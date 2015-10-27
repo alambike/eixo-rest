@@ -8,8 +8,7 @@ use Thread::Queue;
 use JSON -convert_blessed_universally;
 
 # use Eixo::Base::Clase;
-use Eixo::Rest::Request;
-use parent qw(Eixo::Rest::Request);
+use Eixo::Base::Clase 'Eixo::Rest::Request';
 
 use Attribute::Handlers;
 use Eixo::Rest::Client;
