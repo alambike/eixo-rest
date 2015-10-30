@@ -10,6 +10,7 @@ SKIP: {
     use_ok(Eixo::Rest::Api);
 
     my $pid;
+    my $port = int(rand(10000))+2000;
     
     eval{
     
@@ -57,12 +58,12 @@ SKIP: {
     		}
     
     
-    	)->start('8085');
+    	)->start($port);
     
     	#
     	# We can connect now to it
     	#
-        my $a = Eixo::Rest::Api->new('http://localhost:8085');
+        my $a = Eixo::Rest::Api->new('http://localhost:'.$port);
     
     	$a->getTest(
     	

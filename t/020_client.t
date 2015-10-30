@@ -13,6 +13,7 @@ SKIP: {
     skip "HTTP::Server::Simple::CGI not installed", 2 if($@);
 
     my $pid;
+    my $port = int(rand(10000))+10000;
 
     eval{
         $pid = Eixo::Rest::ApiFakeServer->new(
@@ -29,12 +30,12 @@ SKIP: {
                     }
                 },
             }
-        )->start(67891);
+        )->start($port);
 
 
         my @calls;
         
-        my $c = Eixo::Rest::Client->new('http://localhost:67891');
+        my $c = Eixo::Rest::Client->new('http://localhost:'.$port);
         
         $@ = undef;
         eval{
