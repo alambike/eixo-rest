@@ -41,6 +41,8 @@ sub initialize{
         Eixo::Rest::Client->new($endpoint, %opts)
     );
 
+    $self->SUPER::initialize(%opts);
+
     $self;
 }
 
