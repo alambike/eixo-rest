@@ -25,6 +25,7 @@ has(
 	format=>'json',
 	error_callback => undef,
 	current_method => undef,
+    response => undef,
 );
 
 sub initialize{
@@ -266,7 +267,9 @@ sub __send{
 
 		$self->ua(), 
 
-		$req
+		$req,
+
+        \$self->{response}
 
 	);
 
@@ -275,7 +278,7 @@ sub __send{
 sub __sendAsync{
 	my ($self, $req, %args) = @_;
 
-    	die("unsupported:  ERROR: This Perl not built to support threads\n") if (! $Config{'useithreads'});
+    die("unsupported:  ERROR: This Perl not built to support threads\n") if (! $Config{'useithreads'});
 
 	eval 'use Eixo::Rest::RequestAsync';
 

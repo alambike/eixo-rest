@@ -7,7 +7,7 @@ use Data::Dumper;
 
 
 sub send{
-    my ($self, $ua, $req) = @_;
+    my ($self, $ua, $req, $response) = @_;
 
     #
     # DEBUG HANDLERS:
@@ -37,6 +37,8 @@ sub send{
             $self->progress(@_);
 
         }) : $ua->request($req);
+
+    $$response = $res;
 
     if($res->is_success){
         return $self->end($res);
