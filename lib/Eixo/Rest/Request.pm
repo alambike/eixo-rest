@@ -31,12 +31,16 @@ sub start{
 }
 
 sub end{
-	my ($self, $response) = @_;
+    
+    my ($self, $response) = @_;
 
+    my $content = $self->unmarshall($response);
+    
+    &{$self->onSuccess}(
+        
+        $self->callback->($content, $self),
 
-	&{$self->onSuccess}(
-	
-		$self->callback->($self->unmarshall($response), $self),
+        $content
 
 	);
 
