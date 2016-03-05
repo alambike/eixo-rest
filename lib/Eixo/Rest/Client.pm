@@ -142,7 +142,7 @@ sub post: Log {
     if($req->header("Content-Type") eq "application/json"){
 
         $content = JSON->new->allow_blessed(1)
-                            ->convert_blessed(1)
+                            ->convert_blessed(1)->utf8
                             ->encode($args{POST_DATA} || {});
     }
     else{
@@ -206,7 +206,7 @@ sub put: Log {
     if($req->header("Content-Type") eq "application/json"){
 
         $content = JSON->new->allow_blessed(1)
-                            ->convert_blessed(1)
+                            ->convert_blessed(1)->utf8
                             ->encode($args{POST_DATA} || {});
     }
     else{
