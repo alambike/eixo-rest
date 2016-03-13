@@ -76,7 +76,7 @@ sub unmarshall{
 
 	if($self->__format eq 'json'){
 
-		return JSON->new->decode($content || '{}')
+		return JSON->new->utf8->decode($content || '{}')
 	}
 	else{
 		return $content;
