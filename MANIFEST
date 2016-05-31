@@ -11,6 +11,7 @@ lib/Eixo/Rest/Request.pm
 lib/Eixo/Rest/RequestAsync.pm
 lib/Eixo/Rest/RequestAsyncThread.pm
 lib/Eixo/Rest/RequestSync.pm
+lib/Eixo/Rest/Uri.pm
 LICENSE
 Makefile.PL
 MANIFEST
@@ -22,6 +23,7 @@ t/010_fake_api.t
 t/020_client.t
 t/030_request_async.t
 t/040_https_request.t
+t/041_uri.t
 t/certs/ca-key.pem
 t/certs/ca.pem
 t/certs/client-key.pem
