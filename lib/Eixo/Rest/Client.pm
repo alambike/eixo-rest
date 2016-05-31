@@ -13,6 +13,8 @@ use Data::Dumper;
 use Config;
 use Eixo::Rest::RequestSync;
 
+use Eixo::Rest::Uri;
+
 
 my $REQ_PARSER = qr/\:\:([a-z]+)([A-Z]\w+?)$/;
 
@@ -100,7 +102,14 @@ sub AUTOLOAD{
 		};
 	}
 
-	my $uri = $self->build_uri($entity, $id, $action, $args{__implicit_format});
+    my $uri;
+
+    if(my $uri_mask = $args{uri_mask}) {
+        $uri = $self->build_uri_from_mask($uri_mask, \%args);
+    }
+    else{
+	    $uri = $self->build_uri($entity, $id, $action, $args{__implicit_format});
+    }
 
 	$self->$method($uri, %args);
 
@@ -241,6 +250,24 @@ sub build_uri {
         	URI->new($uri.'/'.$self->{format}) :
 
         	URI->new($uri);
+}
+
+sub build_uri_from_mask{
+    my ($self, $uri_mask, $args) = @_;
+
+    my $endpoint = $self->{endpoint};
+    
+    $endpoint .= "/" unless($endpoint =~ /\/$/);
+
+    my $uri = $self->{endpoint} . Eixo::Rest::Uri->new(
+
+        args=>$args->{args},
+
+        uri_mask=>$args->{uri_mask}
+
+    )->build;
+
+    return URI->new($uri)
 }
 
 

@@ -19,6 +19,7 @@ SKIP: {
         $pid = Eixo::Rest::ApiFakeServer->new(
 
             listeners => {
+
                 '/containers/json' => {
                     #header => sub {
                     #    print "HTTP/1.0 200 OK\r\n";
@@ -29,6 +30,13 @@ SKIP: {
                         print '[{"a":"TEST1"},{"b":"TEST2"}]';
                     }
                 },
+
+                '/containers/foo/process/a' => {
+
+                    body=> sub {
+                        print '[{"c":"TEST1"},{"d":"TEST2"}]';
+                    }
+                }
             }
         )->start($port);
 
@@ -79,6 +87,40 @@ SKIP: {
         	"Testing json response"
         );
 
+        # complex request
+        my $h = $c->getContainers(
+
+            uri_mask=>"/containers/:name/process/:process",
+
+            args=>{
+                name=>"foo",
+
+                process=>"a"
+            },
+
+            PROCESS_DATA=> {
+
+                onSuccess=>sub {
+                    return $_[0];
+                }
+            },
+
+            __callback=>sub {
+
+                ok(
+
+                    ref($_[0]) eq 'ARRAY' &&
+
+                    $_[0]->[0]->{c} eq 'TEST1' &&
+
+                    $_[0]->[1]->{d} eq 'TEST2',
+
+                    "Complex uri was well formed"
+
+                );
+            }
+
+        );
 
     };
     if($@){
