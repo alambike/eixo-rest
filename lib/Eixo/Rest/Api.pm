@@ -157,15 +157,15 @@ sub __analyzeRequest {
 
         )->build;
 
-        # erase implicit params from the get_params array
+        # erase implicit params from the get_params and post_params arrays
         delete $params->{GET_DATA}->{$_} foreach(@implicit_params);
+        delete $params->{POST_DATA}->{$_} foreach(@implicit_params);
 
         # we pass the newly created uri
         $params->{uri} = $uri;
     }
 
 	delete($params->{$_}) foreach(@{$args{get_params}}, @{$args{post_params}});
-
 	
 	# default callback function
 	#
