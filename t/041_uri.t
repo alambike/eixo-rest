@@ -9,7 +9,7 @@ my %args = (
     organization=>"university"
 );
 
-my $uri = Eixo::Rest::Uri->new(
+my ($uri, @implicit_params) = Eixo::Rest::Uri->new(
 
     args=>\%args,
 
@@ -19,6 +19,7 @@ my $uri = Eixo::Rest::Uri->new(
 
 is($uri, "/organizations/university/users/foo", "Uri correctly formed");
 
+is(@implicit_params, 2, "Number of implicit params is correct");
 
 
 done_testing();

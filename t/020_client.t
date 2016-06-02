@@ -90,13 +90,9 @@ SKIP: {
         # complex request
         my $h = $c->getContainers(
 
-            uri_mask=>"/containers/:name/process/:process",
+            uri=>"/containers/foo/process/a",
 
-            args=>{
-                name=>"foo",
-
-                process=>"a"
-            },
+            args=>{},
 
             PROCESS_DATA=> {
 
@@ -108,6 +104,7 @@ SKIP: {
             __callback=>sub {
 
                 ok(
+
 
                     ref($_[0]) eq 'ARRAY' &&
 
