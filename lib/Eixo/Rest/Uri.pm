@@ -18,6 +18,8 @@ sub build{
 
     my $mask = $self->uri_mask;
 
+    my @implicit_params;
+
     while($mask =~ /$REG_PARAM/g){
 
         my ($param_name, $param_value) = (
@@ -28,11 +30,13 @@ sub build{
 
         );
 
+        push @implicit_params, $1;
+
         $mask =~ s/\:$param_name/$param_value/g;
 
     }
 
-    return $mask;
+    return $mask, @implicit_params;
 }
 
 1;

@@ -8,6 +8,8 @@ use Attribute::Handlers;
 use Eixo::Rest::Client;
 use Carp;
 
+use Eixo::Rest::Uri;
+
 my $JOB_ID = 1;
 
 has (
@@ -26,6 +28,9 @@ sub AUTOLOAD{
 	if($method =~ /^get|^post|^patch|^delete|^update|^put/){
 		@args = $self->__analyzeRequest($method, @args);
 	}
+    else{
+        die("Unknown REST method " . $method);
+    }
 
 	$self->client->$method(@args);
 }
@@ -133,25 +138,34 @@ sub __analyzeRequest {
 
 	# build GET_DATA & POST_DATA
 	unless(exists($params->{GET_DATA})){
+        $self->__buildGetParams($args{get_params}, $params);
 
-		$params->{GET_DATA} = {
-
-			map {$_ => $params->{$_}} 
-				grep {exists($params->{$_})} 
-					@{$args{get_params}}
-		};
 	}
 
-	unless(exists($params->{POST_DATA})){
-		$params->{POST_DATA} = {
-			map {
-				$_ => $params->{$_}
-			} grep {exists($params->{$_})} @{$args{post_params}}
-		};
+	unless(exists($args{POST_DATA})){
+        $self->__buildPostParams($args{post_params}, $params);
 	}
+
+    # build URI (if provided)
+    if($args{uri_mask}){
+
+        my ($uri, @implicit_params) = Eixo::Rest::Uri->new(
+
+            args=>$params,
+
+            uri_mask=>$args{uri_mask}
+
+        )->build;
+
+        # erase implicit params from the get_params and post_params arrays
+        delete $params->{GET_DATA}->{$_} foreach(@implicit_params);
+        delete $params->{POST_DATA}->{$_} foreach(@implicit_params);
+
+        # we pass the newly created uri
+        $params->{uri} = $uri;
+    }
 
 	delete($params->{$_}) foreach(@{$args{get_params}}, @{$args{post_params}});
-
 	
 	# default callback function
 	#
@@ -188,6 +202,27 @@ sub __analyzeRequest {
 	%$params;
 
 }
+
+    sub __buildGetParams{
+        my ($self, $get_params, $params) = @_;
+
+		$params->{GET_DATA} = {
+			map {$_ => $params->{$_}} 
+				grep {exists($params->{$_})} 
+					@{$get_params}
+		};
+    }
+
+    sub __buildPostParams{
+        my ($self, $post_params, $params) = @_;
+
+		$params->{POST_DATA} = {
+			map {
+				$_ => $params->{$_}
+			} grep {exists($params->{$_})} @{$post_params}
+		};
+
+    }
 
 sub async{
 	my ($self, $product, $method, @args) = @_;

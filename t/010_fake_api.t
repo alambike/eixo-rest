@@ -52,14 +52,28 @@ SKIP: {
     
     				}
     
-    			}
+    			},
+
+                '/complextest/grammar/examples/example1' => {
+
+                    type=>"POST",
+
+                    body=>sub {
+
+    					print $_[0]->cgi->{param}->{POSTDATA}->[0];
+ 
+                    }
+
+                }
     
     
     		}
     
     
     	)->start($port);
-    
+
+        sleep(1);    
+
     	#
     	# We can connect now to it
     	#
@@ -110,7 +124,7 @@ SKIP: {
     		post_params=>[qw(list)],
     
     		__callback=>sub {
-    
+
     			is(ref($_[0]), 'HASH', 'Post params are ok');
     
     			is(
@@ -125,6 +139,37 @@ SKIP: {
     
     	);
     
+        $a->postComplextest(
+
+            args=>{
+
+                type=>"grammar",
+
+                example=>"example1",
+
+                list=>[qw(a b c d e)],
+            },
+
+            uri_mask=>"/complextest/:type/examples/:example",
+
+            post_params=>[qw(list)],
+
+            __callback=>sub {
+
+    			is(ref($_[0]), 'HASH', 'Post params are ok');
+
+    			is(
+    				scalar(@{$_[0]->{list}}), 
+    
+    				5, 
+    
+    				'Complex request with post params is successfull'
+                );
+
+                is(join('', @{$_[0]->{list}}), 'abcde', "Content is correct");
+            }
+
+        );
     
     };
     
