@@ -142,7 +142,7 @@ sub __analyzeRequest {
 
 	}
 
-	unless(exists($args{POST_DATA})){
+	unless(exists($params->{POST_DATA})){
         $self->__buildPostParams($args{post_params}, $params);
 	}
 
