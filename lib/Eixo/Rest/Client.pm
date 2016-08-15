@@ -222,8 +222,9 @@ sub __encode_request_body{
     my ($self,$req, %args) = @_;
 
     my $content;
+    my $content_type = $req->header('Content-Type');
 
-    if($req->header("Content-Type") eq "application/json"){
+    if($content_type && $content_type eq "application/json"){
 
         $content = JSON->new->allow_blessed(1)
                             ->convert_blessed(1)->utf8
@@ -236,7 +237,6 @@ sub __encode_request_body{
         while(my ($key, $value) = each (%{$args{POST_DATA} || {}})){
             $content .= "$key=$value&";
         }
-
 
     }
 
