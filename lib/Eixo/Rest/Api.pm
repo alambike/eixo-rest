@@ -25,7 +25,7 @@ sub AUTOLOAD{
 
 	my ($method) = our $AUTOLOAD =~ /\:\:(\w+)$/;
 
-	if($method =~ /^get|^post|^patch|^delete|^update|^put/){
+	if($method =~ /^get|^post|^patch|^delete|^update|^put|^head/){
 		@args = $self->__analyzeRequest($method, @args);
 	}
     else{
