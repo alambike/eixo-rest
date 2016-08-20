@@ -116,6 +116,19 @@ sub AUTOLOAD{
 
 sub DESTROY {}
 
+sub head: Log {
+	my ($self, $uri, %args) = @_;
+
+	$uri->query_form($args{GET_DATA});
+
+	my $req = HTTP::Request->new(GET => $uri);
+
+    $self->set_headers($req, $args{HEADER_DATA} || {});
+
+	my $send_method = $args{__client_send_method};
+
+    $self->$send_method($req, %args);
+}
 
 sub get: Log {
 
@@ -123,8 +136,9 @@ sub get: Log {
 
 	$uri->query_form($args{GET_DATA});
 
-
 	my $req = HTTP::Request->new(GET => $uri);
+
+    $self->set_headers($req, $args{HEADER_DATA} || {});
 
 	my $send_method = $args{__client_send_method};
 
@@ -141,9 +155,7 @@ sub post: Log {
 
     #$req->header('content-type' => 'application/json');
 
-    my $headers = $args{HEADER_DATA} || {'Content-Type' => 'application/json'};
-
-    $req->header(%$headers);
+    $self->set_headers($req, $args{HEADER_DATA} || {'Content-Type' => 'application/json'});
 
     my $content;
 
@@ -178,6 +190,8 @@ sub delete: Log {
 
 	my $req = HTTP::Request->new(DELETE => $uri);
 
+    $self->set_headers($req, $args{HEADER_DATA} || {});
+
     my $send_method = $args{__client_send_method};
 
     $self->$send_method($req, %args);
@@ -203,11 +217,9 @@ sub put: Log {
 
 	my $req = HTTP::Request->new(PUT=> $uri);
 
+    $self->set_headers($req, $args{HEADER_DATA} || {'Content-Type' => 'application/json'});
+
     my $send_method = $args{__client_send_method};
-
-    my $headers = $args{HEADER_DATA} || {'Content-Type' => 'application/json'};
-
-    $req->header(%$headers);
 
     my $content;
 
@@ -347,5 +359,10 @@ sub remote_error {
 	}
 }
 
+sub set_headers{
+    my ($self, $req, $headers) = @_;
+
+    $req->header($_, $headers->{$_}) foreach(keys %$headers);
+}
 
 1;
