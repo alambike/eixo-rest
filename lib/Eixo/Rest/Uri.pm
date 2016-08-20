@@ -20,6 +20,8 @@ sub build{
 
     my @implicit_params;
 
+    my $c_mask = $mask;
+
     while($mask =~ /$REG_PARAM/g){
 
         my ($param_name, $param_value) = (
@@ -32,11 +34,11 @@ sub build{
 
         push @implicit_params, $1;
 
-        $mask =~ s/\:$param_name/$param_value/g;
+        $c_mask =~ s/\:$param_name/$param_value/g;
 
     }
 
-    return $mask, @implicit_params;
+    return $c_mask, @implicit_params;
 }
 
 1;
