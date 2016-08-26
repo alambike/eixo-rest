@@ -221,13 +221,16 @@ sub put: Log {
 sub __encode_request_body{
     my ($self,$req, %args) = @_;
 
-    my $content;
-    my $content_type = $req->header('Content-Type');
+    return unless($args{POST_DATA});
 
-    if($content_type && $content_type eq "application/json"){
+    my $content;
+    my $content_type = $req->header('Content-Type') 
+        || 'application/x-www-form-urlencoded';
+
+    if($content_type eq "application/json"){
 
         $content = JSON->new->allow_blessed(1)
-                            ->convert_blessed(1)->utf8
+                            ->convert_blessed(1)#->utf8
                             ->encode($args{POST_DATA} || {});
     }
     else{
@@ -240,7 +243,8 @@ sub __encode_request_body{
 
     }
 
-    $req->content($content);
+    $req->header("Content-Type", "$content_type; charset=utf-8");
+    $req->add_content_utf8($content) if($content);
 
 }
 

@@ -30,6 +30,8 @@ sub send{
 
     $self->start();
 
+    #print Dumper($req);
+
     my $res = ($self->onProgress)? 
 
         $ua->request($req, sub {
@@ -37,6 +39,8 @@ sub send{
             $self->progress(@_);
 
         }) : $ua->request($req);
+    
+    #print Dumper($res);
 
     if($res->is_success){
         return $self->end($res);
