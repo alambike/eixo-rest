@@ -136,7 +136,6 @@ sub get: Log {
 
     $uri->query_form($args{GET_DATA});
 
-
 	my $req = HTTP::Request->new(GET => $uri);
 
     $self->set_headers($req, $args{HEADER_DATA} || {});
@@ -155,10 +154,8 @@ sub post: Log {
     $uri->query_form($args{GET_DATA});
 
     my $req = HTTP::Request->new(POST => $uri);
-
-    #$req->header('content-type' => 'application/json');
-
-    $self->set_headers($req, $args{HEADER_DATA} || {'Content-Type' => 'application/json'});
+    
+    $self->set_headers($req, $args{HEADER_DATA} || {});
 
     my $send_method = $args{__client_send_method};
 
@@ -191,6 +188,8 @@ sub patch: Log {
 
     my $req = HTTP::Request->new(PATCH => $uri);
 
+    $self->set_headers($req, $args{HEADER_DATA} || {});
+
     my $send_method = $args{__client_send_method};
 
     $self->__encode_request_body($req,%args);
@@ -206,11 +205,9 @@ sub put: Log {
 
     my $req = HTTP::Request->new(PUT=> $uri);
 
-    $self->set_headers($req, $args{HEADER_DATA} || {'Content-Type' => 'application/json'});
+    $self->set_headers($req, $args{HEADER_DATA} || {});
 
     my $send_method = $args{__client_send_method};
-
-    my $content;
 
     $self->__encode_request_body($req,%args);
 
@@ -225,7 +222,8 @@ sub __encode_request_body{
 
     my $content;
     my $content_type = $req->header('Content-Type') 
-        || 'application/x-www-form-urlencoded';
+        || 'application/json';
+        #|| 'application/x-www-form-urlencoded';
 
     if($content_type eq "application/json"){
 
