@@ -7,27 +7,27 @@ use Attribute::Handlers;
 use Carp;
 
 has (
-	callback=>undef,
+    callback=>undef,
 
-	onProgress => undef,
-	onSuccess =>  undef,
-	onError => undef,
-	onStart => undef,
-	
-	__format=>'json',
+    onProgress => undef,
+    onSuccess =>  undef,
+    onError => undef,
+    onStart => undef,
+    
+    __format=>'json',
 
-	buffer=>'',
+    buffer=>'',
 
 );
 
 sub start{
-	my ($self) = @_;
+    my ($self) = @_;
 
-	$self->{buffer} = ''; # truncate the buffer
+    $self->{buffer} = ''; # truncate the buffer
 
-	if($self->onStart){
-		$self->onStart->();
-	}
+    if($self->onStart){
+        $self->onStart->();
+    }
 }
 
 sub end{
@@ -42,17 +42,17 @@ sub end{
 
         $content
 
-	);
+    );
 
 }
 
 sub error{
-	my ($self, $response) = @_;
+    my ($self, $response) = @_;
 
-	&{$self->onError}($response);
-	# 	$response->code,
-	# 	$response->content,
-	# );
+    &{$self->onError}($response);
+    #     $response->code,
+    #     $response->content,
+    # );
 
 }
 
@@ -69,18 +69,17 @@ sub process {die ref($_[0]) . "::process: MUST BE DEFINED"}
 sub send {die ref($_[0]) . "::send: MUST BE DEFINED"}
 
 sub unmarshall{
-	my ($self, $response) = @_;
+    my ($self, $response) = @_;
 
-	my $content = $response->content;
+    my $content = $response->content;
 
+    if($self->__format eq 'json'){
 
-	if($self->__format eq 'json'){
-
-		return JSON->new->utf8->decode($content || '{}')
-	}
-	else{
-		return $content;
-	}
+        return JSON->new->utf8->decode($content || '{}')
+    }
+    else{
+        return $content;
+    }
 }
 
 
