@@ -95,8 +95,12 @@ sub is_success{
 	return $_[0]->{success};
 }
 
-sub content{
+sub decoded_content{
 	return $_[0]->{content};
+}
+
+sub content_type{
+    'application/json'
 }
 
 sub request{

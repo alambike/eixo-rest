@@ -71,11 +71,21 @@ sub send {die ref($_[0]) . "::send: MUST BE DEFINED"}
 sub unmarshall{
     my ($self, $response) = @_;
 
-    my $content = $response->content;
+    my $content = $response->decoded_content(
+        default_charset=> 'UTF-8'
+    );
+
+    # nowadays (HTTP::Message v6.11)
+    # decoded_content isn't decoding utf8 charset
+    # if content_type is application/json
+    if($response->content_type eq 'application/json'){
+        use Encode;
+        $content = Encode::decode('UTF-8', $content);
+    }
 
     if($self->__format eq 'json'){
 
-        return JSON->new->utf8->decode($content || '{}')
+        return JSON->new->decode($content || '{}')
     }
     else{
         return $content;
