@@ -2,6 +2,7 @@ package Eixo::Rest::BaseException;
 
 use strict;
 use Eixo::Base::Clase;
+use Data::Dumper;
 
 has(
 	method => '',
@@ -42,7 +43,7 @@ sub __generateError {
 	}
 	else{
 		$self->error("Unknown error");
-		$self->error_details('Unknown error in method '.$self->method.' with reason '.$self->reason);
+		$self->error_details('Unknown error in method '.$self->method.' with reason '.$self->reason. '. Response: '.join ',', @{$self->args});
 	}
 
 }
