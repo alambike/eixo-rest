@@ -43,7 +43,9 @@ my $a =  Eixo::Rest::Client->new(
 
 ok(
     $a->getSearch(
-        PROCESS_DATA => {onSuccess => sub {$_[0]}},
+        PROCESS_DATA => {
+            onSuccess => sub {$_[0]}
+        },
         __format => 'RAW',
         __implicit_format => 1,
         __callback => sub {$_[0]},
